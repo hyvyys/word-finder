@@ -1,0 +1,57 @@
+{
+  "name": "@hyvyys/lettering",
+  "version": "1.0.0",
+  "description": "A tool to scrape word lists for typeface test and specimens from Wiktionary index.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "start": "webpack --mode development"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    }
+  },
+  "author": "Adam Jagosz",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/runtime": "^7.5.5",
+    "@vue/test-utils": "^1.0.0-beta.29",
+    "autoprefixer": "^9.6.1",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.1.0",
+    "deepmerge": "^4.0.0",
+    "fibers": "^4.0.1",
+    "jest": "^24.8.0",
+    "jest-cli": "^24.8.0",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^3.0.0",
+    "resolve-url-loader": "^3.1.0",
+    "sass": "^1.22.9",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "vue-jest": "^3.0.4",
+    "vue-loader": "^15.7.1",
+    "vue-server-renderer": "^2.6.10",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6",
+    "worker-loader": "^2.0.0"
+  },
+  "dependencies": {
+    "clipboard-polyfill": "^2.8.1",
+    "file-loader": "^4.0.0",
+    "iso-639-1": "^2.1.0",
+    "keen-ui": "^1.2.0",
+    "vue": "^2.6.10",
+    "xregexp": "^4.2.4"
+  }
+}
