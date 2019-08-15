@@ -23,7 +23,7 @@ module.exports = {
         use: [
           {
             loader: 'worker-loader',
-            options: { publicPath: '/dist/' }
+            options: { publicPath: '/dist/', name: '[name].js' }
           },
         ]
       },
