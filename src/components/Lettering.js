@@ -1,13 +1,13 @@
-import Vue from 'vue';
+import eventBus from './eventBus';
 import * as clipboard from "clipboard-polyfill"
-import { letteringOptionDefaults, letteringOptions, computeLetteringOption, hasFilter } from "../logic/letteringOptions";
+import { computeLetteringOption, hasFilter } from "../logic/letteringOptions";
 import mapLanguage from '../logic/mapLanguage';
 import { capitalize, randomElement } from '../logic/utils';
-import Worker from '../logic/lettering.worker.js';
+import LetteringWorker from '@WORKERS/lettering.worker.js';
+// import LetteringWorker from 'worker-loader?publicPath=/dist/&name=[name].js!@WORKERS/lettering.worker.js';
 
 export default {
   props: {
-    eventBus: Vue,
     options: { type: Object },
     dataPending: Array,
     isSelected: Boolean,
@@ -42,13 +42,13 @@ export default {
   mounted() {
     this.setTitle();
 
-    this.eventBus.$on('data-ready', ({ key, data }) => {
+    eventBus.$on('data-ready', ({ key, data }) => {
       if (key == this.$vnode.key) {
         this.mergeWords(data);
       }
     });
 
-    this.eventBus.$on('option-focused', prop => {
+    eventBus.$on('option-focused', prop => {
       this.focusedOption = null;
       if (hasFilter(prop)) {
         this.focusedOption = prop;
@@ -96,12 +96,8 @@ export default {
         this.worker.terminate();
         console.log('terminated')
       }
-      this.worker = new Worker();
-      this.worker.postMessage({
-        action: 'merge',
-        words: data,
-        collapseAccents: this.options.collapseAccents,
-      });
+      this.worker = new LetteringWorker();
+
       this.worker.onmessage = (e) => {
         if (e.data.action == 'merge') {
           let words = e.data.result;
@@ -114,6 +110,12 @@ export default {
           this.filter();
         }
       };
+
+      this.worker.postMessage({
+        action: 'merge',
+        words: data,
+        collapseAccents: this.options.collapseAccents,
+      });
     },
 
     formatLettering() {
@@ -156,7 +158,7 @@ export default {
         this.formatLettering();
       }
       else {
-        this.eventBus.$emit('snack', 'Only one word matches the filters.');
+        eventBus.$emit('snack', 'Only one word matches the filters.');
       }
     },
 
@@ -170,12 +172,7 @@ export default {
       if (this.worker) {
         this.worker.terminate();
       }
-      this.worker = new Worker();
-      this.worker.postMessage({
-        action: 'filter',
-        words: this.words,
-        options: options,
-      });
+      this.worker = new LetteringWorker();
 
       this.worker.onmessage = (e) => {
         if (e.data.action == 'filter') {
@@ -186,8 +183,15 @@ export default {
           this.formatLettering();
           this.worker = null;
           this.checkFilterSatisfaction();
+          this.$emit('words-ready');
         }
       };
+
+      this.worker.postMessage({
+        action: 'filter',
+        words: this.words,
+        options: options,
+      });
     },
 
     checkFilterSatisfaction() {

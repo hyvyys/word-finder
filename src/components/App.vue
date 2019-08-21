@@ -22,7 +22,6 @@
           :optionsValidation="optionsValidation"
           @input="applyOptions"
           @input:validation="validateOptions"
-          :eventBus="eventBus"
         ></lettering-options>
 
         <h3>Info</h3>
@@ -46,7 +45,6 @@
           v-for="lettering in letterings"
           :key="lettering.key"
           v-bind="lettering"
-          :eventBus="eventBus"
           :isSelected="selectedLettering == lettering"
           @remove="removeLettering(lettering.key)"
           @copy="createSnackbar(`Copied lettering to clipboard.`)"
@@ -80,5 +78,5 @@
 @import "./App";
 </style>
 
-<script src='./App'>
+<script src='./App.js'>
 </script>

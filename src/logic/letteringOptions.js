@@ -54,9 +54,25 @@ export const letteringOptions = [
     if: () => false, // hide from gui
     letterFilter: ({ letter: l }) => !/\-/.test(l)
   },
-
-
+  
+  
   // filters vivisble in GUI
+  {
+    prop: "languages",
+    type: 'select',
+    multiple: true,
+    default: ['Spanish', 'Slovak', 'German', 'Swedish'],
+    filter: filterLanguages,
+    // display selected options first for easy deselecting
+    optionsFunc: value => [
+      ...languages.filter(l => value.includes(l)),
+      ...languages.filter(l => !value.includes(l))
+    ],
+    if: options => options.multiple,
+    compute: o => o.multiple ? o.languages : [o.language],
+    labelToggles: [ "multiple" ],
+    parse: true,
+  },
   {
     prop: "language",
     type: 'select',
@@ -65,21 +81,9 @@ export const letteringOptions = [
     filter: filterLanguages,
     options: languages,
     if: options => !options.multiple,
-    labelToggle: "multiple",
+    labelToggles: [ "multiple" ],
   },
 
-  {
-    prop: "languages",
-    type: 'select',
-    multiple: true,
-    default: ['Spanish', 'Slovak', 'German', 'Swedish'],
-    filter: filterLanguages,
-    options: languages,
-    if: options => options.multiple,
-    compute: o => o.multiple ? o.languages : [o.language],
-    labelToggle: "multiple",
-    parse: true,
-  },
 
   { prop: "multiple", type: 'boolean', default: false, if: () => false },
 

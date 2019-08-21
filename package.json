@@ -4,15 +4,9 @@
   "description": "A tool to scrape word lists for typeface test and specimens from Wiktionary index.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose",
     "test:watch": "jest --watchAll",
     "start": "webpack --mode development"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
-      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
-    }
   },
   "author": "Adam Jagosz",
   "license": "MIT",
@@ -29,8 +23,10 @@
     "css-loader": "^3.1.0",
     "deepmerge": "^4.0.0",
     "fibers": "^4.0.1",
+    "flush-promises": "^1.0.2",
     "jest": "^24.8.0",
     "jest-cli": "^24.8.0",
+    "node-fetch": "^2.6.0",
     "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",
     "resolve-url-loader": "^3.1.0",

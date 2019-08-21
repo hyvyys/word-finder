@@ -3,6 +3,7 @@
     <span class="option-label__label">{{ label }}</span>
 
     <ui-checkbox
+      class="option-label__toggle"
       v-for="(toggle, i) in toggles"
       :key="i"
       :label="toggleLabels[i]"

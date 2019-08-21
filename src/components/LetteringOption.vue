@@ -59,7 +59,7 @@
 
 
 <script>
-import Vue from "vue";
+import eventBus from './eventBus.js';
 import { escapeRegExp, capitalize } from "../logic/utils";
 import { letteringOptions } from "../logic/letteringOptions";
 import OptionLabel from "./OptionLabel.vue";
@@ -76,7 +76,6 @@ export default {
     validation: Boolean,
     toggleProps: Array,
     toggles: Array,
-    eventBus: Vue
   },
 
   computed: {
@@ -92,12 +91,8 @@ export default {
     },
     options: {
       get() {
-        const opts = this.opt().options;
-
-        return opts && [
-          ...opts.filter(o => this.value.includes(o)),
-          ...opts.filter(o => !this.value.includes(o))
-        ];
+        const option = this.opt();
+        return option.optionsFunc ? option.optionsFunc(this.value) : option.options;
       }
     }
   },
@@ -137,11 +132,11 @@ export default {
     },
 
     focus() {
-      this.eventBus.$emit("option-focused", this.prop);
+      eventBus.$emit("option-focused", this.prop);
     },
 
     blur() {
-      this.eventBus.$emit("option-focused", null);
+      eventBus.$emit("option-focused", null);
     }
   }
 };

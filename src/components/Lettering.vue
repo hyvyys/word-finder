@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <div ref="words">
+      <div class='lettering-words' ref="words">
         <ui-button
           v-for="(entry, i) in formattedDrawnWords"
           :key="i"
@@ -57,5 +57,5 @@
 @import "./Lettering.global";
 </style>
 
-<script src='./Lettering'>
+<script src='./Lettering.js'>
 </script>

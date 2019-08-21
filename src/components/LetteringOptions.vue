@@ -4,13 +4,13 @@
     <div class="panel">
       <lettering-option
         v-for="prop of filterOptions"
+        :id="`lettering-option-${prop}`"
         :key="prop"
         :prop="prop"
         :value="options[prop]"
         :validation="optionsValidation[prop]"
         :toggles="toggles[prop].map(p => options[p])"
         :toggleProps="toggles[prop]"
-        :eventBus="eventBus"
         @input="v => sync(prop, v)"
         @input:toggle="v => syncArray(toggles[prop], v)"
       ></lettering-option>
@@ -20,10 +20,10 @@
     <div class="panel">
       <lettering-option
         v-for="prop of formatOptions"
+        :id="`lettering-option-${prop}`"
         :key="prop"
         :prop="prop"
         :value="options[prop]"
-        :eventBus="eventBus"
         @input="v => sync(prop, v)"
       ></lettering-option>
     </div>
@@ -39,7 +39,6 @@
 </style>
 
 <script>
-import Vue from "vue";
 import { letteringOptions, getToggles } from "../logic/letteringOptions";
 import { escapeRegExp, objectFromArray } from "../logic/utils";
 import LetteringOption from "./LetteringOption.vue";
@@ -48,7 +47,6 @@ export default {
   components: { LetteringOption },
 
   props: {
-    eventBus: Vue,
     options: {
       type: Object,
       required: true

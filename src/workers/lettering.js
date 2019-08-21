@@ -1,21 +1,21 @@
-import { applyFilters } from "./applyFilters";
-import { parseData } from './parseData';
+import { applyFilters } from "../logic/applyFilters";
+import { parseData } from '../logic/parseData';
 
-self.onmessage = async function (e) {
-  let action = e.data.action;
+export default function(data) {
+  let action = data.action;
   // console.log('worker: ' + action)
   switch (action) {
     case 'filter': {
-      const result = applyFilters(e.data.words, e.data.options);
-      self.postMessage({ action, result });
+      const result = applyFilters(data.words, data.options);
+      return ({ action, result });
       break;
     }
     case 'merge': {
       let result = [];
-      for (let language of e.data.words) {
+      for (let language of data.words) {
         for (let entry of language) {
           let letter = entry.letter;
-          if (e.data.collapseAccents) {
+          if (data.collapseAccents) {
             letter = letter.normalize('NFD')[0] // Normalization Form Canonical Decomposition
           }
           const existingEntry = result.find(e => e.letter == letter);
@@ -25,13 +25,13 @@ self.onmessage = async function (e) {
             existingEntry.words = existingEntry.words.concat(entry.words);
         }
       }
-      self.postMessage({ action, result });
+      return ({ action, result });
       break;
     }
     case 'parse': {
-      const words = parseData(e.data.language, e.data.data);
-      self.postMessage({ action, words });
+      const words = parseData(data.language, data.data);
+      return ({ action, words });
       break;
     }
   }
-};
+}

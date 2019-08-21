@@ -1,4 +1,5 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const path = require('path');
 
 module.exports = {
   watch: true,
@@ -48,7 +49,9 @@ module.exports = {
   },
   resolve: {
     alias: {
-      vue: 'vue/dist/vue.js'
+      vue: 'vue/dist/vue.js',
+      '@WORKERS': path.resolve(__dirname, 'src/workers/'),
+      '@SRC': path.resolve(__dirname, 'src/'),
     }
   },
   plugins: [

@@ -1,14 +1,13 @@
-import Vue from 'vue';
+import eventBus from './eventBus.js';
 
-import { getData } from "../logic/getData";
-import { letteringOptionDefaults, letteringOptions, computeLetteringOption, getLetteringOption } from "../logic/letteringOptions";
+import { getData } from "@SRC/logic/getData";
+import { letteringOptionDefaults, computeLetteringOption, getLetteringOption } from "../logic/letteringOptions";
 import mapLanguage from '../logic/mapLanguage';
 import { idGenerator, arrayElementsDiffer } from '../logic/utils';
 
 import Lettering from './Lettering.vue';
 import LetteringOptions from './LetteringOptions.vue';
-import Worker from '../logic/lettering.worker.js';
-import { parseData } from "../logic/parseData";
+import Worker from '@WORKERS/lettering.worker.js';
 
 export default {
   components: { Lettering, LetteringOptions },
@@ -21,18 +20,17 @@ export default {
       letterings: [],
       selectedLettering: null,
       idGenerator: idGenerator(),
-      eventBus: new Vue(),
       worker: null,
       dataLoading: false,
     });
   },
 
   beforeMount() {
-    this.addLettering();
-    this.eventBus.$on('snack', message => this.createSnackbar(message));
-
     this.$on('data-fetched', e => this.onDataFetched(e));
     this.$on('data-parsed', e => this.onDataParsed(e));
+    eventBus.$on('snack', message => this.createSnackbar(message));
+    
+    this.addLettering();
   },
 
   computed: {
@@ -75,7 +73,6 @@ export default {
         }
       }
 
-      // fetch and parse data if necessary
       let val = validOptions, oldVal = this.selectedLettering.options;
       function propDiffers(prop) {
         const newProp = computeLetteringOption(prop, val),
@@ -108,6 +105,7 @@ export default {
     async initUpdateLettering(letteringKey) {
       // set timeout to allow reactive props to be passed
       setTimeout(() => this.fetchData(letteringKey), 0);
+      // this.fetchData(letteringKey);
     },
 
     async fetchData(letteringKey) {
@@ -121,8 +119,7 @@ export default {
         if (mappedLanguage) {
           if (!this.words[mappedLanguage]) {
             getData(language)
-              .then((async response => {
-                const data = await response.text();
+              .then((data => {
                 this.$emit('data-fetched', { language, data });
               }));
           }
@@ -143,12 +140,6 @@ export default {
     parseData(language, data, collapseAccents) {
       const mappedLanguage = mapLanguage(language);
       let worker = new Worker();
-      worker.postMessage({
-        action: 'parse',
-        language,
-        data,
-        collapseAccents
-      });
       worker.onmessage = (e) => {
         if (e.data.action == 'parse') {
           this.words[mappedLanguage] = e.data.words;
@@ -156,6 +147,12 @@ export default {
           this.$emit('data-parsed', { language })
         }
       };
+      worker.postMessage({
+        action: 'parse',
+        language,
+        data,
+        collapseAccents
+      });
     },
 
     onDataParsed({ language }) {
@@ -165,8 +162,10 @@ export default {
         if (matchIndex > -1) {
           lettering.dataPending.splice(matchIndex, 1);
           if (lettering.dataPending.length == 0) {
-            this.eventBus.$nextTick(
-              () => this.eventBus.$emit('data-ready', ({ key: lettering.key, data: this.words }))
+            eventBus.$nextTick(() => {
+                eventBus.$emit('data-ready', ({ key: lettering.key, data: this.words }))
+                this.$emit('data-ready');
+              }
             );
           }
           else {
