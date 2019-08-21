@@ -59,7 +59,11 @@
 
 
 <script>
+// these don't allow tree-shaking (I'm getting 554 kB) 
 // import { UiSelect, UiCheckbox, UiSwitch, UiTextbox } from 'keen-ui';
+// import { UiSelect, UiCheckbox, UiSwitch, UiTextbox } from 'keen-ui/src';
+
+// these do the trick (417 kB, a bit better) 
 import UiSelect from 'keen-ui/src/UiSelect.vue';
 import UiCheckbox from 'keen-ui/src/UiCheckbox.vue';
 import UiSwitch from 'keen-ui/src/UiSwitch.vue';
