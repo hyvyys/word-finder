@@ -1,12 +1,13 @@
 const path = require('path');
-var CopyPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-module.exports = {
-  watch: true,
+module.exports = env => ({
   entry: {
     index: './src/index.js',
   },
+  mode: env == 'production' ? 'production' : 'development',
   output: {
     path: __dirname + '/dist',
     filename: '[name].js',
@@ -25,7 +26,7 @@ module.exports = {
         use: [
           {
             loader: 'worker-loader',
-            options: { publicPath: '/', name: '[name].js' }
+            options: { name: '[name].js' }
           },
         ]
       },
@@ -37,7 +38,10 @@ module.exports = {
         test: /\.(scss|sass|css)$/,
         use: [
           'style-loader',
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: { url: false },
+          },
           'postcss-loader',
           'sass-loader'
         ],
@@ -50,7 +54,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      vue: 'vue/dist/vue.js',
+      "vue": env === "production" ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js',
       '@WORKERS': path.resolve(__dirname, 'src/workers/'),
       '@SRC': path.resolve(__dirname, 'src/'),
     }
@@ -60,6 +64,7 @@ module.exports = {
       { from: 'src/index.html', to: '.' },
       { from: 'static/', to: '.' },
     ]),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    // new BundleAnalyzerPlugin(),
   ],
-}
+});

@@ -67,7 +67,15 @@
 </style>
 
 <script>
+// import { UiIconButton, UiButton, UiCheckbox, UiTooltip } from 'keen-ui';
+import UiIconButton from 'keen-ui/src/UiIconButton.vue';
+import UiButton from 'keen-ui/src/UiButton.vue';
+import UiCheckbox from 'keen-ui/src/UiCheckbox.vue';
+import UiTooltip from 'keen-ui/src/UiTooltip.vue';
+
 export default {
+  components: { UiButton, UiCheckbox, UiTooltip, UiIconButton },
+  
   props: {
     label: String,
     info: String,

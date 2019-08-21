@@ -1,3 +1,7 @@
+// import { UiButton, UiIconButton } from 'keen-ui';
+import UiButton from 'keen-ui/src/UiButton.vue';
+import UiIconButton from 'keen-ui/src/UiIconButton.vue';
+
 import eventBus from './eventBus';
 import * as clipboard from "clipboard-polyfill"
 import { computeLetteringOption, hasFilter } from "../logic/letteringOptions";
@@ -7,6 +11,8 @@ import LetteringWorker from '@WORKERS/lettering.worker.js';
 // import LetteringWorker from 'worker-loader?publicPath=/dist/&name=[name].js!@WORKERS/lettering.worker.js';
 
 export default {
+  components: { UiButton, UiIconButton },
+  
   props: {
     options: { type: Object },
     dataPending: Array,

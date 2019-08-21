@@ -59,13 +59,19 @@
 
 
 <script>
+// import { UiSelect, UiCheckbox, UiSwitch, UiTextbox } from 'keen-ui';
+import UiSelect from 'keen-ui/src/UiSelect.vue';
+import UiCheckbox from 'keen-ui/src/UiCheckbox.vue';
+import UiSwitch from 'keen-ui/src/UiSwitch.vue';
+import UiTextbox from 'keen-ui/src/UiTextbox.vue';
+
 import eventBus from './eventBus.js';
 import { escapeRegExp, capitalize } from "../logic/utils";
 import { letteringOptions } from "../logic/letteringOptions";
 import OptionLabel from "./OptionLabel.vue";
 
 export default {
-  components: { OptionLabel },
+  components: { OptionLabel, UiSelect, UiCheckbox, UiSwitch, UiTextbox },
 
   props: {
     prop: String,

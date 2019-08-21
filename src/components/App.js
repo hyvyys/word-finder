@@ -1,3 +1,6 @@
+// import { UiToolbar } from 'keen-ui';
+import UiToolbar from 'keen-ui/src/UiToolbar.vue';
+
 import eventBus from './eventBus.js';
 
 import { getData } from "@SRC/logic/getData";
@@ -10,7 +13,7 @@ import LetteringOptions from './LetteringOptions.vue';
 import Worker from '@WORKERS/lettering.worker.js';
 
 export default {
-  components: { Lettering, LetteringOptions },
+  components: { Lettering, LetteringOptions, UiToolbar },
 
   data() {
     return ({

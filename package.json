@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --verbose",
     "test:watch": "jest --watchAll",
-    "start": "webpack --mode development"
+    "start": "webpack --env=development -w",
+    "build": "webpack --env=production"
   },
   "author": "Adam Jagosz",
   "license": "MIT",
@@ -25,6 +26,7 @@
     "deepmerge": "^4.0.0",
     "fibers": "^4.0.1",
     "flush-promises": "^1.0.2",
+    "gh-pages": "^2.1.1",
     "jest": "^24.8.0",
     "jest-cli": "^24.8.0",
     "node-fetch": "^2.6.0",
@@ -40,6 +42,7 @@
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.39.1",
+    "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.6",
     "worker-loader": "^2.0.0"
   },

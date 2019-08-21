@@ -1,9 +1,10 @@
 import Vue from 'vue';
-import KeenUI from 'keen-ui';
-import 'keen-ui/dist/keen-ui.css';
-Vue.use(KeenUI);
 
-// import App from './App';
+// import 'keen-ui/dist/keen-ui.min.css';
+// import KeenUI from '@KeenUi';
+// Vue.use(KeenUI);
+
+// instead import individual ui components into particular components, for better tree shaking
 
 import App from './components/App.vue';
 
