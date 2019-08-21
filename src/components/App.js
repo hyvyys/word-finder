@@ -1,5 +1,9 @@
 // import { UiToolbar } from 'keen-ui';
+import UiIcon from 'keen-ui/src/UiIcon.vue';
+import UiIconButton from 'keen-ui/src/UiIconButton.vue';
 import UiToolbar from 'keen-ui/src/UiToolbar.vue';
+import UiSnackbarContainer from 'keen-ui/src/UiSnackbarContainer.vue';
+import UiSnackbar from 'keen-ui/src/UiSnackbar.vue';
 
 import eventBus from './eventBus.js';
 
@@ -13,7 +17,7 @@ import LetteringOptions from './LetteringOptions.vue';
 import Worker from '@WORKERS/lettering.worker.js';
 
 export default {
-  components: { Lettering, LetteringOptions, UiToolbar },
+  components: { Lettering, LetteringOptions, UiIcon, UiIconButton, UiToolbar, UiSnackbar, UiSnackbarContainer },
 
   data() {
     return ({
