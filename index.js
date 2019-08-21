@@ -1897,7 +1897,7 @@ eval("\nvar content = __webpack_require__(/*! !../node_modules/css-loader/dist/c
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = function () {\n  return new Worker(\"/\" + \"lettering.worker.js\");\n};\n\n//# sourceURL=webpack:///./src/workers/lettering.worker.js?");
+eval("module.exports = function () {\n  return new Worker(\"./\" + \"lettering.worker.js\");\n};\n\n//# sourceURL=webpack:///./src/workers/lettering.worker.js?");
 
 /***/ })
 
