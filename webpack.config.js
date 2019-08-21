@@ -1,5 +1,6 @@
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const path = require('path');
+var CopyPlugin = require('copy-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   watch: true,
@@ -24,7 +25,7 @@ module.exports = {
         use: [
           {
             loader: 'worker-loader',
-            options: { publicPath: '/dist/', name: '[name].js' }
+            options: { publicPath: '/', name: '[name].js' }
           },
         ]
       },
@@ -55,6 +56,10 @@ module.exports = {
     }
   },
   plugins: [
+    new CopyPlugin([
+      { from: 'src/index.html', to: '.' },
+      { from: 'static/', to: '.' },
+    ]),
     new VueLoaderPlugin()
   ],
 }
