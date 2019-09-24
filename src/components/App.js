@@ -69,19 +69,7 @@ export default {
     },
 
     async applyOptions(options) {
-      // sync with GUI
-      this.letteringOptions = options;
-
-      // sync with Lettering only validated options
-      let validOptions = Object.assign({}, options);
-      for (let key in this.optionsValidation) {
-        if (this.optionsValidation[key] === false) {
-          validOptions[key] = this.selectedLettering.options[key];
-        }
-      }
-
-      let val = validOptions, oldVal = this.selectedLettering.options;
-      function propDiffers(prop) {
+      function propDiffers(prop, val, oldVal) {
         const newProp = computeLetteringOption(prop, val),
           oldProp = computeLetteringOption(prop, oldVal);
         if (newProp instanceof Array) {
@@ -92,9 +80,22 @@ export default {
         }
       }
 
+      // sync with GUI
+      this.letteringOptions = options;
+      
+      // sync with Lettering only validated options
+      let validOptions = Object.assign({}, options);
+      for (let key in this.optionsValidation) {
+        if (this.optionsValidation[key] === false) {
+          validOptions[key] = this.selectedLettering.options[key];
+        }
+      }
+      let val = validOptions, oldVal = this.selectedLettering.options;
+
       // fetch and parse data if necessary
       for (let prop in val) {
-        if (getLetteringOption(prop).parse && propDiffers(prop)) {
+        const p = propDiffers(prop, val, oldVal);
+        if (getLetteringOption(prop).parse && p) {
           console.log(prop)
           this.initUpdateLettering(this.selectedLettering.key);
           break;

@@ -71,5 +71,5 @@ export function arrayElementsDiffer(a, b) {
 		else
 			A.splice(index, 1);
 	}
-	return false;
+	return a.length > 0;
 }
