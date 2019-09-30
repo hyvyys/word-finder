@@ -3,7 +3,7 @@
 @import "keen-ui/src/styles/variables.scss";
 
 body {
-  font-family: Roboto, Arial;
+  font-family: Livvic, Roboto, Arial;
   margin: 0;
   text-decoration-skip-ink: none;
 }
@@ -21,6 +21,18 @@ html {
     font-size: 92%;
   }
 }
+
+h1 {
+  font-weight: 400;
+}
+
+h2, h3 {
+  font-weight: 500;
+}
+h4 {
+  font-weight: 600;
+}
+
 /* ******************************************* */
 
 .row,
