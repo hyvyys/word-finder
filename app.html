@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/word-finder/favicon.ico><title>Word Finder</title><meta name=description content="Multi-language word finder. Search 182 languages for words with specific letter patterns or matching a regular expression."><script>// Single Page Apps for GitHub Pages
+      // https://github.com/rafrex/spa-github-pages
+      // Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License
+      // ----------------------------------------------------------------------
+      // This script checks to see if a redirect is present in the query string
+      // and converts it back into the correct url and adds it to the
+      // browser's history using window.history.replaceState(...),
+      // which won't cause the browser to attempt to load the new url.
+      // When the single page app is loaded further down in this file,
+      // the correct url will be waiting in the browser's history for
+      // the single page app to route accordingly.
+      (function(l) {
+        if (l.search) {
+          var q = {};
+          l.search.slice(1).split('&').forEach(function(v) {
+            var a = v.split('=');
+            q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
+          });
+          if (q.p !== undefined) {
+            window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + (q.p || '') +
+              (q.q ? ('?' + q.q) : '') +
+              l.hash
+            );
+          }
+        }
+      }(window.location))</script><link href=/word-finder/css/about.cef54cfd.css rel=prefetch><link href=/word-finder/js/about.9a497257.js rel=prefetch><link href=/word-finder/css/app.7e982e4f.css rel=preload as=style><link href=/word-finder/css/chunk-vendors.d1b504f2.css rel=preload as=style><link href=/word-finder/js/app.cc2b8c6d.js rel=preload as=script><link href=/word-finder/js/chunk-vendors.6be2605b.js rel=preload as=script><link href=/word-finder/css/chunk-vendors.d1b504f2.css rel=stylesheet><link href=/word-finder/css/app.7e982e4f.css rel=stylesheet></head><body><noscript><strong>We're sorry but Chordline doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id=app></div><script src=/word-finder/js/chunk-vendors.6be2605b.js></script><script src=/word-finder/js/app.cc2b8c6d.js></script></body></html>
