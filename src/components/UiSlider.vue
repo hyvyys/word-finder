@@ -76,13 +76,18 @@ export default {
   mounted() {
     document.addEventListener("mousemove", this.onMouseMove);
     document.addEventListener("mouseup", this.onMouseUp);
+    window.addEventListener("resize", this.onResize);
     this.render();
   },
   beforeDestroy() {
     document.removeEventListener("mousemove", this.onMouseMove);
     document.removeEventListener("mouseup", this.onMouseUp);
+    window.removeEventListener("resize", this.onResize);
   },
   methods: {
+    onResize() {
+      this.render();
+    },
     roundToStep(v) {
       return Math.round(v);
     },
