@@ -26,7 +26,20 @@
               :word="getPickedWord(l)"
             >
               <UiButton :disableRipple="true" @click='togglePin(l)'>{{pinnedLetters[l] ? 'Unpin' : 'Pin'}}</UiButton>
-              <UiButton :disableRipple="true" @click='selectEntry({ letter: l, word: getPickedWord(l) })'>See</UiButton>
+
+              <UiButton v-if='!selectedEntry || selectedEntry.letter !== l'
+                :disableRipple="true"
+                @click='selectEntry({ letter: l, word: getPickedWord(l) })'
+              >
+                See
+              </UiButton>
+              <UiButton v-else
+                :disableRipple="true"
+                @click='copyWord(getPickedWord(l))'
+              >
+                Copy
+              </UiButton>
+
               <UiButton :disableRipple="true" @click='swapWord(l)'>Swap</UiButton>
             </PowerWord>
           </div>
@@ -34,7 +47,7 @@
       </div>
     </div>
 
-    <div ref="sectionLastPicks">
+    <div ref="sectionLastPicks" class="section-wrapper">
       <div class="section section-last-picks" v-if="selectedEntry">
         <label class="section-label">Last picks for {{selectedEntry.letter}}</label>
         <div class='last-picks'>
@@ -79,6 +92,7 @@
           :spellcheck="false"
           :rows="10"
         />
+        <UiCheckbox v-model="capitalizeClipboard">Capitalize</UiCheckbox>
       </div>
     </div>
 
@@ -89,6 +103,7 @@
 import SearchWorker from "@/mixins/SearchWorker";
 import WordPicker from "@/mixins/WordPicker";
 import UiTextbox from "keen-ui/src/UiTextbox";
+import UiCheckbox from "keen-ui/src/UiCheckbox";
 import SearchWidget from "@/components/SearchWidget";
 import WordList from "@/components/WordList";
 import UiButton from "@/components/UiButton";
@@ -103,6 +118,7 @@ export default {
   ],
   components: {
     UiTextbox,
+    UiCheckbox,
     SearchWidget,
     WordList,
     UiButton,
@@ -120,6 +136,7 @@ export default {
       selectedLetter: null,
 
       clipboardText: '',
+      capitalizeClipboard: false,
 
       allResultsVisible: false,
       allWords: null,
@@ -161,7 +178,13 @@ export default {
         this.$refs.clipboard.$refs.textarea.scrollTop = 10000;
       });
     },
+    capitalize(str) {
+      return str.slice(0,1).toUpperCase() + str.slice(1);
+    },
     copyWord(word) {
+      if (this.capitalizeClipboard) {
+        word = this.capitalize(word);
+      }
       this.$copyText(word);
       this.copyToClipboard(word);
     },
@@ -254,9 +277,19 @@ export default {
   }
 }
 
+.section-wrapper {
+  display: flex;
+  .section {
+    flex: 1;
+  }
+}
+
 .section-last-picks {
   min-height: 11rem;
   align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   @media screen and (max-width: #{$mq-max-width}) {
     align-self: unset;
     min-height: unset;
@@ -266,9 +299,13 @@ export default {
 .last-picks {
   @include ui-border-generic();
   border-top-width: 0;
+  max-height: 9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   > .content {
+    max-height: 100%;
     margin: 0 -2px;
-    height: 9rem;
     overflow: auto !important;
   }
 }

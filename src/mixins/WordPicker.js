@@ -3,11 +3,6 @@ function randomElement(array) {
   return array[index];
 }
 
-/* eslint-disable no-unused-vars */
-function capitalize(str) {
-  return str.slice(0,1).toUpperCase() + str.slice(1);
-}
-
 export default {
   data() {
     return {
