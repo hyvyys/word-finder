@@ -1,0 +1,56 @@
+@import 'keen-ui/src/styles/imports';
+
+@mixin ui-border() {
+  &.ui-textbox {
+    &.is-multi-line {
+      &:hover:not(.is-disabled) {
+        .ui-textbox__input,
+        .ui-textbox__textarea {
+          border-color: $ui-input-border-color--hover;
+        }
+      }
+      &.is-active:not(.is-disabled) {
+        .ui-textbox__input,
+        .ui-textbox__textarea {
+          border-color: $ui-input-border-color--active;
+          border-width: $ui-input-border-width--active;
+        }
+      }
+    }
+  }
+  .ui-textbox__textarea {
+    border-width: 2px !important;
+    border-color: $ui-input-border-color;
+    border-style: solid;
+    border-width: $ui-input-border-width;
+  }
+}
+
+@mixin ui-border-generic() {
+  border-color: $ui-input-border-color;
+  border-style: solid;
+  border-width: 2px;
+  
+  &:hover:not(.is-disabled) {
+    border-color: $ui-input-border-color--hover;
+  }
+  &.is-active:not(.is-disabled) {
+    border-color: $ui-input-border-color--active;
+    border-width: $ui-input-border-width--active;
+  }
+}
+
+@mixin ui-background() {
+  background-color: $md-grey-200;
+  color: $primary-text-color;
+  &:hover:not(.is-disabled) {
+    background-color: darken($md-grey-200, 7.5%);
+  }
+}
+@mixin ui-background-primary() {
+  color: white;
+  background-color: $brand-primary-color;
+  &:hover:not(.is-disabled) {
+      background-color: darken($brand-primary-color, 10%);
+  }
+}

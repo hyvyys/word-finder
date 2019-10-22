@@ -1,0 +1,10 @@
+@mixin ui-button-tiny {
+  border-radius: 0;
+  text-transform: none;
+  font-weight: normal;
+  font-size: 0.7rem;
+  min-width: unset;
+  padding: 2px 8px;
+  height: unset;
+  display: inline-block;
+}

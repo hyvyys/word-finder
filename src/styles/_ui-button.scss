@@ -1,0 +1,31 @@
+.app {
+ .ui-button {
+    .ui-button__content {
+      line-height: 1.4;
+      height: 18px;
+    }
+
+    &.is-loading {
+      .ui-button__content {
+        opacity: 1;
+      }
+    }
+    &.is-disabled {
+      opacity: 0.6;
+      cursor: disabled;
+    }
+    .ui-progress-circular.ui-button__progress {
+      order: -1;
+      margin-right: 1.1rem;
+      position: static !important;
+      transform: none;
+      .ui-progress-circular__indeterminate {
+        position: static !important;
+      }
+    }
+    .ui-ripple-ink__ink {
+      opacity: 0.15;
+      transition: transform 0.25s ease-out, opacity 0.25s ease-out;
+    }
+  } 
+}

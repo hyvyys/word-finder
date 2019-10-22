@@ -1,0 +1,99 @@
+@import "~@/styles/ui-button";
+
+.search-widget {
+  /* display label on the left rather than on the top */
+  .ui-select__label,
+  .ui-textbox__label {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
+  .ui-textbox__label-text,
+  .ui-select__label-text,
+  .ui-slider label {
+    order: -1;
+    white-space: nowrap;
+    margin-right: 0.4rem;
+  }
+  
+  .ui-checkbox .ui-checkbox__label-text {
+    margin-left: 0.2rem;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .ui-select__display,
+  .ui-textbox__input {
+    border-width: 2px !important;
+  }
+  .ui-select__display-value {
+    white-space: nowrap;
+  }
+
+  /* make UiSelect congruent with UiTextbox */
+  .ui-select .ui-select__display,
+  .ui-select.is-multiple .ui-select__display {
+    padding: 0;
+  }
+  
+  .ui-select .ui-select__display-value,
+  .ui-select.is-multiple .ui-select__display-value,
+  .ui-textbox__input {
+    padding: 0.1rem 0.2rem;
+  }
+  .ui-select__display-value.is-placeholder {
+    &::before {
+      content: '\a0';
+    }
+  }
+
+  .ui-textbox, .ui-select { 
+    &:not(:hover) {
+      .ui-select__display,
+      .ui-textbox__textarea,
+      .ui-textbox__input {
+        transition: border-color 0.45s;
+      }
+    }
+  }
+
+  
+  $m: 0.5rem;
+  .ui-select,
+  .ui-textbox:not(.is-multi-line),
+  .ui-button,
+  .section-label,
+  .ui-toggle-button,
+  .ui-toggle-button-group,
+  .ui-checkbox,
+  .ui-slider
+  {
+    margin-top: 0;
+    margin-bottom: $m;
+    margin-right: $m;
+    height: 2rem;
+  }
+  
+  .ui-toggle-button {
+    height: 1.8rem;
+    margin-top: 0.1rem;
+  }
+  .ui-toggle-button-group {
+    display: flex;
+    margin-right: 0.5rem;
+    > :not(:last-child) {
+      margin-right: 0.2rem;
+    }
+    :last-child {
+      margin-right: 0;
+    }
+  }
+
+  .ui-select, .ui-textbox {
+    flex: 1;
+  }
+}
+
+.ui-button-tiny {
+  @include ui-button-tiny;
+}

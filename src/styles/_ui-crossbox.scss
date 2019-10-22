@@ -1,0 +1,35 @@
+@import "~@/styles/variables";
+
+@mixin ui-crossbox {
+  &.ui-checkbox.is-checked {
+    .ui-checkbox__checkmark::after {
+      content: "✖";
+      border: none !important;
+      color: white;
+      font-size: 0.8rem;
+      text-align: center;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 150%;
+      height: 100%;
+      line-height: 1.45;
+      transform: translate(-50%, -50%) !important;
+    }
+
+    .ui-checkbox__label-text {
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        left: 0;
+        height: 0;
+        top: 50%;
+        transform: rotate(10deg);
+        border-bottom: 2px solid $primary;
+      }
+    }
+  }
+}

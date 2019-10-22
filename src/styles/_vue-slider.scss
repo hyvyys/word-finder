@@ -1,0 +1,78 @@
+#app {
+  $marker-size: 28px;
+  $butt-size: 4px;
+
+  .vue-slider {
+    margin: 10px $marker-size;
+  }
+
+  .vue-slider-rail {
+    // height: $marker-size;
+  }
+  .vue-slider-dot-tooltip {
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .vue-slider-dot-tooltip-inner {
+    height: $marker-size;
+    display: flex;
+    align-items: center;
+    span {
+      width: 100%;
+      text-align: center;
+    }
+    padding: 2px;
+    background-color: $primary;
+    border-color: $primary;
+    &::after {
+      border-radius: 10px;
+      width: $butt-size;
+      height: 32px;
+      border: 0;
+      box-sizing: content-box;
+      box-shadow: 0 0 4px rgba($light, 0.7);
+      background: $primary;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  .vue-slider-process {
+    background-color: $primary;
+  }
+
+  .vue-slider-dot{
+    .vue-slider-dot-handle {
+      opacity: 0;
+    }
+    &:nth-child(2) {
+      .vue-slider-dot-tooltip {
+        transform: translate(-50%, -50%);
+        .vue-slider-dot-tooltip-inner {
+          padding-right: 6px;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+
+          &::after {
+            right: 0;
+            left: unset;
+          }
+        }
+      }
+    }
+    &:nth-child(3) {
+      .vue-slider-dot-tooltip {
+        transform: translate(100%, -50%);
+        .vue-slider-dot-tooltip-inner {
+          padding-left: 6px;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+
+          &::after {
+            right: unset;
+            left: 0;
+          }
+        }
+      }
+    }
+  }
+}

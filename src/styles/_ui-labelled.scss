@@ -1,0 +1,29 @@
+@mixin ui-labelled {
+  label {
+    color: $ui-input-label-color;
+    cursor: default;
+    font-size: $ui-input-label-font-size;
+    line-height: $ui-input-label-line-height;
+    margin-bottom: $ui-input-label-margin-bottom;
+    margin-bottom: 0;
+    transform-origin: left;
+    transition: color 0.1s ease, transform 0.2s ease;
+  }
+
+  &:hover:not(.is-disabled) {
+    label {
+    color: $ui-input-label-color--hover;
+    }
+  }
+  
+  &.is-active:not(.is-disabled) {
+    label {
+        color: $ui-input-label-color--active;
+    }
+  }
+  &.is-invalid:not(.is-disabled) {
+    label {
+    color: $ui-input-label-color--invalid;
+    }
+  }
+}
