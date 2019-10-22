@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "core-js": "^3.1.2",
+    "gh-pages": "^2.1.1",
     "iso-639-1": "^2.1.0",
     "keen-ui": "^1.2.0",
     "vue": "^2.6.10",
@@ -34,6 +35,7 @@
     "node-sass": "^4.12.0",
     "sass": "^1.23.0",
     "sass-loader": "^8.0.0",
+    "vue-cli-plugin-prerender-spa": "^1.1.6",
     "vue-template-compiler": "^2.6.10",
     "vue-virtual-scroller": "^1.0.0-rc.2",
     "worker-loader": "^2.0.0"
