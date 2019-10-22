@@ -2,24 +2,6 @@
   <div class="search-view">
     <SearchWidget class='section section-search' :searching="searching" />
 
-    <div class="section section-last-picks" v-if="selectedEntry">
-      <label class="section-label">Last picks for {{selectedEntry.letter}}</label>
-      <div class='last-picks'>
-        <div class='content'>
-          <PowerWordRow class='secondary'
-            v-for="(word, i) in lastPicks"
-            :key="i"
-            :word="word"
-            :first="i === 0"
-            @pick="pickWord"
-            @copy="copyWord"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="section section-last-picks" v-else>
-    </div>
-
     <div class="section-results">
       <div class="no-results" v-if="letters.length === 0 && !searching">
         No results. Try adjusting the filters.
@@ -47,6 +29,24 @@
               <UiButton :disableRipple="true" @click='selectEntry({ letter: l, word: getPickedWord(l) })'>See</UiButton>
               <UiButton :disableRipple="true" @click='swapWord(l)'>Swap</UiButton>
             </PowerWord>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ref="sectionLastPicks">
+      <div class="section section-last-picks" v-if="selectedEntry">
+        <label class="section-label">Last picks for {{selectedEntry.letter}}</label>
+        <div class='last-picks'>
+          <div class='content'>
+            <PowerWordRow class='secondary'
+              v-for="(word, i) in lastPicks"
+              :key="i"
+              :word="word"
+              :first="i === 0"
+              @pick="pickWord"
+              @copy="copyWord"
+            />
           </div>
         </div>
       </div>
@@ -183,7 +183,7 @@ export default {
       this.selectedEntry = entry;
       this.selectedWord = word;
       if (this.mobile) {
-        this.$refs.sectionDetails.scrollIntoView({ behavior: 'smooth' });
+        this.$refs.sectionLastPicks.scrollIntoView({ behavior: 'smooth' });
       }
     },
     pickWord(word) {
@@ -207,6 +207,7 @@ export default {
   padding: 0.5rem;
 
   display: grid;
+  grid-auto-flow: column;
   grid-template-columns: 70% 30%;
   grid-template-rows: auto 1fr; // avoid clipboard (right column, 2nd row) jumping around when content is loading
   
@@ -258,6 +259,7 @@ export default {
   align-self: flex-end;
   @media screen and (max-width: #{$mq-max-width}) {
     align-self: unset;
+    min-height: unset;
   }
 }
 
