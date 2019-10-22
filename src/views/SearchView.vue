@@ -19,7 +19,7 @@
     <div class="no-results" v-if="letters.length === 0 && !searching">
       No results. Try adjusting the filters.
     </div>
-    <div class="lettering-section section" v-else>
+    <div class="lettering-section section" v-else-if="letters.length > 0" >
       <div class="section-header">
         <label class="section-label">Random picks</label>
         <UiButton color="primary" @click="showAll">Show all results</UiButton>
@@ -186,6 +186,7 @@ export default {
   margin: 0 auto;
   width: 100%;
   max-width: 1500px;
+  min-height: 100vh;
   padding: 0.5rem;
 
   display: grid;
