@@ -1,6 +1,6 @@
 <template>
   <div class="search-view">
-    <SearchWidget class='section' :searching="searching" />
+    <SearchWidget class='section section-search' :searching="searching" />
 
     <div class="section section-last-picks" v-if="selectedEntry">
       <label class="section-label">Last picks for {{selectedEntry.letter}}</label>
@@ -20,7 +20,7 @@
     <div class="section section-last-picks" v-else>
     </div>
 
-    <div>
+    <div class="section-results">
       <div class="no-results" v-if="letters.length === 0 && !searching">
         No results. Try adjusting the filters.
       </div>
@@ -52,7 +52,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="section-details" ref="sectionDetails">
       <div class="section">
         <label class="section-label" v-if="allResultsVisible" >
           All results ({{ allWords.length }})
@@ -125,12 +125,18 @@ export default {
       allWords: null,
       selectedEntry: null,
       selectedWord: null,
+
+      mobile: false,
     };
   },
   computed: {
     lastPicks() {
       return this.selectedEntry ? this.pickedWords[this.selectedEntry.letter] : [];
     },
+  },
+  mounted() {
+    const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    this.mobile = w <= 800;
   },
   methods: {
     countLetterWords(letter) {
@@ -173,6 +179,9 @@ export default {
       let entry = this.wordBank.find(e => e.letter === letter);
       this.selectedEntry = entry;
       this.selectedWord = word;
+      if (this.mobile) {
+        this.$refs.sectionDetails.scrollIntoView({ behavior: 'smooth' });
+      }
     },
     pickWord(word) {
       this.setWord(this.selectedEntry.letter, word);
@@ -197,6 +206,15 @@ export default {
   display: grid;
   grid-template-columns: 70% 30%;
   grid-template-rows: auto 1fr; // avoid clipboard (right column, 2nd row) jumping around when content is loading
+  
+  @media screen and (max-width: #{$mq-max-width}) {
+    display: flex;
+    flex-direction: column;
+
+    .section-search, .section-results {
+      order: -1;
+    }
+  }
 }
 .with-keyboard {
   .search-view {
@@ -233,8 +251,11 @@ export default {
 }
 
 .section-last-picks {
-  align-self: flex-end;
   min-height: 11rem;
+  align-self: flex-end;
+  @media screen and (max-width: #{$mq-max-width}) {
+    align-self: unset;
+  }
 }
 
 .last-picks {
@@ -272,11 +293,21 @@ export default {
 
 .lettering-section {
   margin-bottom: 10rem;
+  @media screen and (max-width: #{$mq-max-width}) {
+    margin-bottom: 0.5rem;
+  }
 
   .words {
     display: grid;
     grid-template-columns: repeat(5, 20%);
     justify-items: stretch;
+    
+    @media screen and (max-width: #{$mq-max-width}) {
+      grid-template-columns: repeat(3, 33%);
+    }
+    @media screen and (max-width: 400px) {
+      grid-template-columns: repeat(2, 50%);
+    }
 
     > .word {
       position: relative;
@@ -317,6 +348,16 @@ export default {
       .power-word {
         height: 3.4rem;
       }
+    }
+  }
+}
+
+@media screen and (max-width: #{$mq-max-width}) {
+  .power-word {
+    ::v-deep .word-actions {
+      opacity: 1;
+      background: transparent;
+      border-color: transparent;
     }
   }
 }

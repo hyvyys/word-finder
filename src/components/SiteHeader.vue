@@ -1,14 +1,16 @@
 <template>
   <div class="site-header">
-    <nav class="nav">
-      <router-link class="home-link" to="/">
-        <h1>Word Finder</h1>
-      </router-link>
+    <router-link class="home-link" to="/">
+      <h1>Word Finder</h1>
+    </router-link>
 
+    <nav class="nav">
       <router-link v-for="(preset, i) in searchPresets" :key="i" :to="preset.url">{{ preset.title}}</router-link>
     </nav>
 
-    <UiButton id="accent-keyboard-toggle">keyboard</UiButton>
+    <div class="rest">
+      <UiButton id="accent-keyboard-toggle">keyboard</UiButton>
+    </div>
   </div>
 </template>
 
@@ -31,7 +33,6 @@ export default {
 .site-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0.5rem 1rem;
   background: $primary;
   background-image: url(~@/assets/quadrata-bg.jpg);
@@ -44,10 +45,21 @@ export default {
   }
 }
 
+.rest {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .nav {
   display: flex;
   align-items: center;
   height: 2rem;
+
+  @media screen and (max-width: #{$mq-max-width}) {
+    display: none;
+  }
 }
 
 a {

@@ -77,7 +77,7 @@ export default {
 
 .power-word-row,
 .placeholder-wrapper {
-  height: 2.0rem;
+  min-height: 2.0rem;
   background: $secondary;
   display: flex;
   align-items: center;

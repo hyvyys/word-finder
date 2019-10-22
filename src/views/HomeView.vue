@@ -1,6 +1,6 @@
 <template>
   <div class="home-view">
-    <div class="search">
+    <div class="content">
       <SearchWidget />
       
       <div class="u-reading">
@@ -36,7 +36,7 @@
           If you want to narrow down your search, use the search input to get more specific results.
           For instance, you might want to find
           <router-link to="/search?i=fi%7Cfl&l=en&r=5,10&f=107c">
-            English words consisting of 5 to 10 letters, including a "fi" or "fl" combination</router-link>.
+            English words of 5 to 10 letters, including a combination of “fi” or “fl”</router-link>.
           Expand the filters section to use the other filters such as:
           <ul>
           <li>the negative search input (type anything you <em>don't</em> want to come up);</li>
@@ -51,7 +51,7 @@
         </p>
       </div>
 
-      <SearchWidget :expanded="true" />
+      <SearchWidget class="search-bottom" :expanded="true" />
     </div>
   </div>
 </template>
@@ -83,12 +83,16 @@ export default {
     line-height: 1.6;
     font-size: 1.1rem;
   }
-  margin-bottom: 8rem;
+  margin-bottom: 1rem;
 }
 
-.search {
-  max-width: 700px;
+.content {
+  max-width: 750px;
   margin: 0 auto;
+  padding: 0 1rem;
+}
+.search-bottom {
+  min-height: 25rem;
 }
 
 </style>

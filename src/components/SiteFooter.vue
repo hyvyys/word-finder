@@ -1,7 +1,7 @@
 <template>
   <div class="site-footer">
-    <span>Copyright 2019 Adam Jagosz</span>
-    <a href="https://github.com/hyvyys/word-finder">View source on Github</a>
+    <span>{{ 'Copyright 2019 Adam\xa0Jagosz' }}</span>
+    <a href="https://github.com/hyvyys/word-finder">{{ 'View source on\xa0Github' }}</a>
   </div>
 </template>
 
@@ -28,6 +28,7 @@ export default {
 
   > * {
     padding: 0.75rem 1.5rem;
+    text-align: center;
   }
 }
 

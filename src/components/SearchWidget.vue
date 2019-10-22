@@ -3,23 +3,10 @@
     <LanguageSelect v-model="selectedLanguages" />
 
     <div class="filter-grid" :class="{ 'advanced-view': advancedView }">
-      <!-- advanced view first row -->
+
+      <!-- advanced view first col -->
       <label v-show="advancedView" class="section-label">Look for:</label>
-      <label v-show="advancedView" class="section-label">Filter out:</label>
-      <UiButton id="advanced-view-toggle" @click="advancedView = !advancedView"
-        :color="advancedView ? 'primary' : 'default'"
-      >
-        filters
-      </UiButton>
-      <!-- advanced view second row -->
       <UiTextbox label="Search" placeholder="desired phrase" v-model="searchPhrase" @keydown.enter="search" />
-      <UiTextbox v-show="advancedView"
-        label="Filter" placeholder="undesired phrase" v-model="filterPhrase" @keydown.enter="search" />
-      <div id="searchToggles" class="ui-toggle-button-group">
-        <UiToggleButton tooltip="case sensitive" label="Aa" v-model="isSearchCaseSensitive" />
-        <UiToggleButton tooltip="regex" label=".*" v-model="isSearchRegex" />
-      </div>
-      <!-- advanced view third row -->
       <div v-show="advancedView" class="filters">
         <UiCheckbox v-for="f in positiveFilters" :key="f.label" :value="f.value" @input="v => toggleFilter(v, f.index)">
           {{f.label}}
@@ -34,13 +21,27 @@
           :formatValue="(v) => v === LENGTH_FILTER_MAX ? '∞' : v"
         />
       </div>
+
+      <!-- advanced view second col -->
+      <label v-show="advancedView" class="section-label">Filter out:</label>
+      <UiTextbox v-show="advancedView"
+        label="Filter" placeholder="undesired phrase" v-model="filterPhrase" @keydown.enter="search" />
       <div v-show="advancedView" class="filters filters-negative">
         <UiCheckbox v-for="f in negativeFilters" :key="f.label" :value="f.value" @input="v => toggleFilter(v, f.index)">
           {{f.label}}
         </UiCheckbox>
       </div>
-
-      <div v-show="advancedView" style="align-self: center">
+      <!-- advanced view third col -->
+      <UiButton class="mq-col-right mq-row-1" id="advanced-view-toggle" @click="advancedView = !advancedView"
+        :color="advancedView ? 'primary' : 'default'"
+      >
+        filters
+      </UiButton>
+      <div class="mq-col-right mq-row-2 ui-toggle-button-group" id="searchToggles">
+        <UiToggleButton tooltip="case sensitive" label="Aa" v-model="isSearchCaseSensitive" />
+        <UiToggleButton tooltip="regex" label=".*" v-model="isSearchRegex" />
+      </div>
+      <div class="mq-col-right mq-row-3 mq-row-rest reset-filter-cell" v-show="advancedView">
         <UiButton @click="resetFilters">Reset</UiButton>
       </div>
     </div>
@@ -177,14 +178,35 @@ export default {
     #advanced-view-toggle {
       order: 1;
     }
-    #reset-filters-btn {
-      align-self: center;
+    .reset-filter-cell {
+      align-self: flex-end;
     }
     
     &.advanced-view {
       grid-template-columns: 1fr 1fr 90px;
+      grid-template-rows: auto auto auto;
+      grid-auto-flow: column;
+      
       #advanced-view-toggle {
         order: 0;
+      }
+
+      @media screen and (max-width: #{$mq-max-width}) {
+        grid-auto-flow: row;
+        grid-template-columns: 1fr 90px;
+        // display: block;
+        :not(.mq-col-right) {
+          grid-column-start: 1;
+        }
+        @for $i from 1 through 3 {
+          .mq-row-#{$i} {
+            grid-row-start: $i;
+            grid-column-start: 2;
+          } 
+        }
+        .mq-row-rest {
+          grid-row-end: span 10;
+        }
       }
     }
 
