@@ -2,8 +2,8 @@
   <div class="search-view">
     <SearchWidget class='section' :searching="searching" />
 
-    <div class="section section-last-picks">
-      <label v-if="selectedEntry" class="section-label">Last picks for {{selectedEntry.letter}}</label>
+    <div class="section section-last-picks" v-if="selectedEntry">
+      <label class="section-label">Last picks for {{selectedEntry.letter}}</label>
       <div class='last-picks'>
         <div class='content'>
           <PowerWordRow class='secondary'
@@ -16,6 +16,8 @@
           />
         </div>
       </div>
+    </div>
+    <div class="section section-last-picks" v-else>
     </div>
 
     <div>
@@ -52,19 +54,6 @@
 
     <div>
       <div class="section">
-      
-        <label v-if="!allResultsVisible && selectedEntry" class="section-label">Last picks for {{selectedEntry.letter}}</label>
-        <div v-if="!allResultsVisible && selectedEntry" class='last-picks'>
-          <PowerWordRow class='secondary'
-            v-for="(word, i) in lastPicks"
-            :key="i"
-            :word="word"
-            :first="i === 0"
-            @pick="pickWord"
-            @copy="copyWord"
-          />
-        </div>
-
         <label class="section-label" v-if="allResultsVisible" >
           All results ({{ allWords.length }})
         </label>
@@ -207,6 +196,7 @@ export default {
 
   display: grid;
   grid-template-columns: 70% 30%;
+  grid-template-rows: auto 1fr; // avoid clipboard (right column, 2nd row) jumping around when content is loading
 }
 .with-keyboard {
   .search-view {
@@ -244,12 +234,12 @@ export default {
 
 .section-last-picks {
   align-self: flex-end;
+  min-height: 11rem;
 }
 
 .last-picks {
   @include ui-border-generic();
   border-top-width: 0;
-  // position: relative;
   > .content {
     margin: 0 -2px;
     height: 9rem;
@@ -259,7 +249,6 @@ export default {
 
 
 .section-clipboard {
-  // height: 100%;
   display: flex;
   flex-direction: column;
   max-height: 300px;
@@ -269,17 +258,11 @@ export default {
   flex: 1;
   @include ui-border-generic();
   border-top-width: 0 !important;
-  // ::v-deep .ui-textbox__content, ::v-deep .ui-textbox__label, ::v-deep .ui-textbox__textarea {
-  //   height: 100% !important;
-  // }
   ::v-deep .ui-textbox__textarea {
     border: 0 !important;
     padding: 0.25rem 0.5rem;
     overflow: auto !important;
   }
-  // overflow: hidden !important;
-  // height: 100%;
-  // flex: 1;
 }
 
 .no-results {
