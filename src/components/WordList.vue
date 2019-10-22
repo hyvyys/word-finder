@@ -69,6 +69,7 @@ export default {
 .border {
   @include ui-border-generic();
   border-top-width: 0;
+  border-bottom-width: 0;
 }
 .content {
   height: 200px;

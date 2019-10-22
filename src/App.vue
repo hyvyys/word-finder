@@ -2,7 +2,9 @@
   <div id="app" class="app" :class="{ 'with-keyboard': isKeyboardVisible }" >
     <SiteHeader />
 
-    <router-view></router-view>
+    <main>
+      <router-view></router-view>
+    </main>
 
     <AccentKeyboard
       toggleSelector="#accent-keyboard-toggle, #close-keyboard"
@@ -46,6 +48,10 @@ body {
 
 *, *::after, *::before {
   box-sizing: border-box;
+}
+
+main {
+  min-height: 100vh;
 }
 
 .container {
