@@ -52,6 +52,19 @@
 
     <div>
       <div class="section">
+      
+        <label v-if="!allResultsVisible && selectedEntry" class="section-label">Last picks for {{selectedEntry.letter}}</label>
+        <div v-if="!allResultsVisible && selectedEntry" class='last-picks'>
+          <PowerWordRow class='secondary'
+            v-for="(word, i) in lastPicks"
+            :key="i"
+            :word="word"
+            :first="i === 0"
+            @pick="pickWord"
+            @copy="copyWord"
+          />
+        </div>
+
         <label class="section-label" v-if="allResultsVisible" >
           All results ({{ allWords.length }})
         </label>
