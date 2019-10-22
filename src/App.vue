@@ -7,7 +7,7 @@
     </main>
 
     <AccentKeyboard
-      toggleSelector="#accent-keyboard-toggle, #close-keyboard"
+      toggleSelector="#accent-keyboard-toggle"
       @expand="isKeyboardVisible = true"
       @collapse="isKeyboardVisible = false"
     />

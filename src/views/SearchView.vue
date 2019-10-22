@@ -243,11 +243,13 @@ export default {
     }
   }
 }
-.with-keyboard {
-  .search-view {
-    padding-bottom: 180px;
-  }
-}
+
+/* footer provides space either way */
+// .with-keyboard {
+//   .search-view {
+//     padding-bottom: 180px;
+//   }
+// }
 
 .section {
   margin: 0.5rem;
@@ -320,6 +322,7 @@ export default {
 .clipboard {
   flex: 1;
   @include ui-border-generic();
+  transition: border-color 0.45s;
   border-top-width: 0 !important;
   ::v-deep .ui-textbox__textarea {
     border: 0 !important;

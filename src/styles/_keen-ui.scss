@@ -1,5 +1,18 @@
 @import "~@/styles/ui-button";
 
+.app {
+  .ui-textbox, .ui-select { 
+    &:not(:hover) {
+      .ui-select__display,
+      .ui-textbox__textarea,
+      .ui-textbox__input {
+        transition: border-color 0.45s;
+      }
+    }
+  }
+}
+
+
 .search-widget {
   /* display label on the left rather than on the top */
   .ui-select__label,
@@ -46,17 +59,6 @@
       content: '\a0';
     }
   }
-
-  .ui-textbox, .ui-select { 
-    &:not(:hover) {
-      .ui-select__display,
-      .ui-textbox__textarea,
-      .ui-textbox__input {
-        transition: border-color 0.45s;
-      }
-    }
-  }
-
   
   $m: 0.5rem;
   .ui-select,
