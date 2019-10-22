@@ -2,15 +2,14 @@
   <div class="search-view">
     <SearchWidget class='section' :searching="searching" />
 
-    <div class="section">
+    <div class="section section-clipboard">
       <label class="section-label">Clipboard</label>
       <UiTextbox
         ref="clipboard"
         class="clipboard"
-        placeholder="Click words to copy them here"
+        placeholder="Copied word will be appended here"
         :value="clipboardText"
         @input="v => clipboardText = v"
-        :rows="4"
         :multiLine="true"
         :spellcheck="false"
       />
@@ -19,6 +18,7 @@
     <div class="no-results" v-if="letters.length === 0 && !searching">
       No results. Try adjusting the filters.
     </div>
+
     <div class="lettering-section section" v-else-if="letters.length > 0" >
       <div class="section-header">
         <label class="section-label">Random picks</label>
@@ -49,6 +49,19 @@
     <div>
 
       <div class="section">
+      
+        <label v-if="!allResultsVisible && selectedEntry" class="section-label">Last picks for {{selectedEntry.letter}}</label>
+        <div v-if="!allResultsVisible && selectedEntry" class='last-picks'>
+          <PowerWordRow class='secondary'
+            v-for="(word, i) in lastPicks"
+            :key="i"
+            :word="word"
+            :first="i === 0"
+            @pick="pickWord"
+            @copy="copyWord"
+          />
+        </div>
+
         <label class="section-label" v-if="allResultsVisible" >
           All results ({{ allWords.length }})
         </label>
@@ -61,21 +74,6 @@
           @copy="copyWord"
         />
       </div>
-
-      <div v-if="!allResultsVisible && selectedEntry" class="section">
-        <label class="section-label">Last picks</label>
-        <div class='last-picks'>
-          <PowerWordRow class='secondary'
-            v-for="(word, i) in lastPicks"
-            :key="i"
-            :word="word"
-            :first="i === 0"
-            @pick="pickWord"
-            @copy="copyWord"
-          />
-        </div>
-      </div>
-
     </div>
   </div>
 </template>
@@ -216,11 +214,6 @@ export default {
   }
 }
 
-
-.search-results {
-  display: flex;
-}
-
 .section-content {
   @include ui-border-generic();
   border-top-width: 0;
@@ -232,20 +225,33 @@ export default {
 }
 
 .last-picks {
-  height: 9rem;
   overflow: auto !important;
-  
+  max-height: 9rem;
+}
+
+
+.section-clipboard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .clipboard {
   flex: 1;
   @include ui-border-generic();
   border-top-width: 0 !important;
+  ::v-deep .ui-textbox__content, ::v-deep .ui-textbox__label, ::v-deep .ui-textbox__textarea {
+    height: 100% !important;
+  }
   ::v-deep .ui-textbox__textarea {
     border: 0 !important;
     padding: 0.25rem 0.5rem;
     overflow: auto !important;
   }
+  overflow: hidden !important;
+  height: 100%;
+  max-height: 400px;
+  flex: 1;
 }
 
 .no-results {
@@ -254,6 +260,8 @@ export default {
 }
 
 .lettering-section {
+  margin-bottom: 10rem;
+
   .words {
     display: grid;
     grid-template-columns: repeat(5, 20%);
