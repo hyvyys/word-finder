@@ -173,6 +173,9 @@ export default {
     showAll() {
       this.allWords = this.wordBank.flatMap(e => e.words);
       this.allResultsVisible = true;
+      if (this.mobile) {
+        this.$refs.sectionDetails.scrollIntoView({ behavior: 'smooth' });
+      }
     },
     selectEntry({ letter, word }) {
       this.allResultsVisible = false;
