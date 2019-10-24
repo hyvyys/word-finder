@@ -11,15 +11,6 @@
         <UiCheckbox v-for="f in positiveFilters" :key="f.label" :value="f.value" @input="v => toggleFilter(v, f.index)">
           {{f.label}}
         </UiCheckbox>
-        
-        <UiSlider
-          v-if="advancedView"
-          v-model="lengthRange"
-          :min="1"
-          :max="LENGTH_FILTER_MAX"
-          label="Length"
-          :formatValue="(v) => v === LENGTH_FILTER_MAX ? '∞' : v"
-        />
       </div>
 
       <!-- advanced view second col -->
@@ -32,21 +23,29 @@
         </UiCheckbox>
       </div>
       <!-- advanced view third col -->
-      <UiButton class="mq-col-right mq-row-1" id="advanced-view-toggle" @click="advancedView = !advancedView"
+      <UiButton class="mq-col-right col-right mq-row-1" id="advanced-view-toggle" @click="advancedView = !advancedView"
         :color="advancedView ? 'primary' : 'default'"
       >
-        filters
+        {{ advancedView ? 'less' : 'more' }}
       </UiButton>
       <div class="mq-col-right mq-row-2 ui-toggle-button-group" id="searchToggles">
         <UiToggleButton tooltip="case sensitive" label="Aa" v-model="isSearchCaseSensitive" />
         <UiToggleButton tooltip="regex" label=".*" v-model="isSearchRegex" />
       </div>
-      <div class="mq-col-right mq-row-3 mq-row-rest reset-filter-cell" v-show="advancedView">
+      <div class="mq-col-right col-right mq-row-3 mq-row-rest reset-filter-cell" v-show="advancedView">
         <UiButton @click="resetFilters">Reset</UiButton>
       </div>
     </div>
 
-    <div class='u-row'>
+    <div>
+      <UiSlider v-show="advancedView"
+        v-if="advancedView"
+        v-model="lengthRange"
+        :min="1"
+        :max="LENGTH_FILTER_MAX"
+        label="Length"
+        :formatValue="(v) => v === LENGTH_FILTER_MAX ? '∞' : v"
+      />
       <div class='search-toolbar'>
         <UiTooltipButton class="search-btn" color="primary" size="large" :disableRipple="true"
           @click="search" :loading="searching" :disabled="nothingChanged"
@@ -166,13 +165,24 @@ export default {
 <style lang="scss">
 .search-widget {
   margin-top: 1rem;
-
+    
   .filter-grid {
+    $col-right-width: 70px;
     display: grid;
-    grid-template-columns: 1fr auto 90px;
+    grid-template-columns: 1fr auto $col-right-width;
     > * {
       margin-right: 0.65rem;
       margin-bottom: 0.5rem;
+    }
+
+    .col-right {
+      margin-right: 0;
+      display: flex;
+      &.ui-button, .ui-button {
+        margin-right: 0;
+        min-width: unset;
+        flex: 1;
+      }
     }
 
     #advanced-view-toggle {
@@ -181,9 +191,9 @@ export default {
     .reset-filter-cell {
       align-self: flex-end;
     }
-    
+
     &.advanced-view {
-      grid-template-columns: 1fr 1fr 90px;
+      grid-template-columns: 1fr 1fr $col-right-width;
       grid-template-rows: auto auto auto;
       grid-auto-flow: column;
       
@@ -193,7 +203,10 @@ export default {
 
       @media screen and (max-width: #{$mq-max-width}) {
         grid-auto-flow: row;
-        grid-template-columns: 1fr 90px;
+        grid-template-columns: 1fr $col-right-width;
+        .mq-col-right {
+          margin-right: 0;
+        }
         // display: block;
         :not(.mq-col-right) {
           grid-column-start: 1;
