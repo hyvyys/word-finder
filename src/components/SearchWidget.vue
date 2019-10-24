@@ -248,11 +248,12 @@ export default {
   .ui-button.search-btn {
     height: 2.6rem;
     min-width: 12rem;
-    margin: 0;
+    margin: 0.5rem;
   }
 
   .ui-slider {
-    flex-basis: 100%;
+    max-width: 600px;
+    margin: 0.5rem auto;
   }
 }
 </style>
