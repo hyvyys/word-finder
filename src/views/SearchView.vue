@@ -6,7 +6,7 @@
       <div class="no-results" v-if="letters.length === 0 && !searching">
         No results. Try adjusting the filters.
       </div>
-      <div class="lettering-section section" v-else-if="letters.length > 0" >
+      <div class="lettering section" v-else-if="letters.length > 0" >
         <div class="section-header">
           <label class="section-label">Random picks</label>
           <UiButton color="primary" @click="showAll">Show all results</UiButton>
@@ -47,20 +47,18 @@
       </div>
     </div>
 
-    <div ref="sectionLastPicks" class="section-wrapper">
-      <div class="section section-last-picks" v-if="selectedEntry">
-        <label class="section-label">Last picks for {{selectedEntry.letter}}</label>
-        <div class='last-picks'>
-          <div class='content'>
-            <PowerWordRow class='secondary'
-              v-for="(word, i) in lastPicks"
-              :key="i"
-              :word="word"
-              :first="i === 0"
-              @pick="pickWord"
-              @copy="copyWord"
-            />
-          </div>
+    <div ref="sectionLastPicks" class="section section-last-picks" v-if="selectedEntry">
+      <label class="section-label">Last picks for {{selectedEntry.letter}}</label>
+      <div class='last-picks'>
+        <div class='content'>
+          <PowerWordRow class='secondary'
+            v-for="(word, i) in lastPicks"
+            :key="i"
+            :word="word"
+            :first="i === 0"
+            @pick="pickWord"
+            @copy="copyWord"
+          />
         </div>
       </div>
     </div>
@@ -79,21 +77,21 @@
           @copy="copyWord"
         />
       </div>
+    </div>
       
-      <div class="section section-clipboard">
-        <label class="section-label">Clipboard</label>
-        <UiTextbox
-          ref="clipboard"
-          class="clipboard"
-          placeholder="Copied word will be appended here"
-          :value="clipboardText"
-          @input="v => clipboardText = v"
-          :multiLine="true"
-          :spellcheck="false"
-          :rows="10"
-        />
-        <UiCheckbox v-model="capitalizeClipboard">Capitalize</UiCheckbox>
-      </div>
+    <div class="section section-clipboard">
+      <label class="section-label">Clipboard</label>
+      <UiTextbox
+        ref="clipboard"
+        class="clipboard"
+        placeholder="Copied word will be appended here"
+        :value="clipboardText"
+        @input="v => clipboardText = v"
+        :multiLine="true"
+        :spellcheck="false"
+        :rows="10"
+      />
+      <UiCheckbox v-model="capitalizeClipboard">Capitalize</UiCheckbox>
     </div>
 
   </div>
@@ -149,6 +147,11 @@ export default {
   computed: {
     lastPicks() {
       return this.selectedEntry ? this.pickedWords[this.selectedEntry.letter] : [];
+    },
+  },
+  watch: {
+    wordBank() {
+      this.selectedEntry = null;
     },
   },
   mounted() {
@@ -230,10 +233,21 @@ export default {
   padding: 0.5rem;
 
   display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 70% 30%;
-  grid-template-rows: auto 1fr; // avoid clipboard (right column, 2nd row) jumping around when content is loading
+  grid-template-columns: repeat(3, 33%);
+  grid-template-rows: auto auto auto 1fr; // align the three rows to top if viewport is taller
   
+  .section-search {
+    max-width: 1000px;
+  }
+  .section-search,
+  .section-results {
+    grid-column-end: span 3;
+    order: -2;
+  }
+  .section-details {
+    order: -1;
+  }
+
   @media screen and (max-width: #{$mq-max-width}) {
     display: flex;
     flex-direction: column;
@@ -287,11 +301,8 @@ export default {
 }
 
 .section-last-picks {
-  min-height: 11rem;
-  align-self: flex-end;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   @media screen and (max-width: #{$mq-max-width}) {
     align-self: unset;
     min-height: unset;
@@ -336,28 +347,38 @@ export default {
   padding: 2rem;
 }
 
-.lettering-section {
-  margin-bottom: 10rem;
+.lettering {
   @media screen and (max-width: #{$mq-max-width}) {
     margin-bottom: 0.5rem;
   }
 
   .words {
     display: grid;
-    grid-template-columns: repeat(5, 20%);
     justify-items: stretch;
+    grid-template-columns: repeat(8, 1fr);
+    
+    @media screen and (max-width: 1000px) {
+      grid-template-columns: repeat(7, 1fr);
+    }
     
     @media screen and (max-width: #{$mq-max-width}) {
-      grid-template-columns: repeat(3, 33%);
+      grid-template-columns: repeat(5, 1fr);
+    }
+    @media screen and (max-width: 650px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media screen and (max-width: 525px) {
+      grid-template-columns: repeat(3, 1fr);
     }
     @media screen and (max-width: 400px) {
-      grid-template-columns: repeat(2, 50%);
+      grid-template-columns: repeat(2, 1fr);
     }
 
     > .word {
       position: relative;
 
-      .fit-me {
+      ::v-deep .fit-me {
+        height: 100%;
         margin: 0 8px;
       }
 
@@ -397,7 +418,7 @@ export default {
   }
 }
 
-@media screen and (max-width: #{$mq-max-width}) {
+@media screen and (hover: none) {
   .power-word {
     ::v-deep .word-actions {
       opacity: 1;
