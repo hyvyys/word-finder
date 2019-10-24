@@ -67,7 +67,7 @@ const FILTERS = [
   },
   {
     label: 'acronyms', default: true, activeWhen: true, kind: 'negative',
-    disallowedSequence: '[A-Z][A-Z]'
+    disallowedSequence: '^[A-Z]\\.?[A-Z]'
   },
   {
     label: 'phrases', default: true, activeWhen: true, kind: 'negative',
