@@ -171,7 +171,9 @@ export default {
       // add tiny difference to select closer knob when their values are the same
       const diffs = this.value.map((v, i) => Math.abs(v + 0.00001 * i - val));
       const i = diffs.indexOf(Math.min(...diffs));
-      x += (i == 0 ? 0.66 : -0.33) * this.knobWidth; // no idea why this works TBH...
+      // the accuracy of this seems to differ based on slider width
+      // possibly also on value calculation
+      x += (i == 0 ? 1 : 0) * this.knobWidth;
       val = x / w * this.range;
       val = this.adjustValue(i, val);
       val = this.roundToStep(val);
@@ -287,7 +289,7 @@ $marker-border-radius: 0;
         transform: translateY(-50%);
         background: $primary;
       }
-      
+      outline: none;
       @include ui-focus-ring(150%);
     }
   }
