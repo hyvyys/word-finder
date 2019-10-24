@@ -2,19 +2,30 @@
   <div class="ui-slider" :style="`height: ${sliderHeight}px`">
     <label v-if="label" class="label">{{ label }}</label>
     
-    <div class="track" ref="track" @mousedown="onTrackMouseDown">
+    <div class="track" ref="track"
+      @mousedown="onTrackMouseDown" 
+      @touchstart.stop="onTrackTouchStart"
+    >
       <div class="range-empty" :style="rangeEmptyStyle" />
       <div class="range" :style="rangeStyle" />
-      <div class="knob knob-1" :style="knobStyle + ` left: ${knobLeft[0]}px;`" @mousedown.stop="onKnobMouseDown(0)">
-        <div class="knob-inner" :style="knobInnerStyle">
+      <div class="knob knob-1" :style="knobStyle + ` left: ${knobLeft[0]}px;`"
+        @mousedown.stop="onKnobMouseDown(0)"
+        @touchstart.stop="onKnobTouchStart(0)"
+      >
+        <div class="knob-inner" :style="knobInnerStyle" tabindex="0">
           <div class="text">{{ formatValue(value[0]) }}</div>
           <div class="marker" :style="markerStyle"></div>
+          <div class="focus-ring"></div>
         </div>
       </div>
-      <div class="knob knob-2" :style="knobStyle + ` left: ${knobLeft[1]}px;`" @mousedown.stop="onKnobMouseDown(1)">
-        <div class="knob-inner" :style="knobInnerStyle">
+      <div class="knob knob-2" :style="knobStyle + ` left: ${knobLeft[1]}px;`"
+        @mousedown.stop="onKnobMouseDown(1)"
+        @touchstart.stop="onKnobTouchStart(1)"
+      >
+        <div class="knob-inner" :style="knobInnerStyle" tabindex="0">
           <div class="marker" :style="markerStyle"></div>
           <div class="text">{{ formatValue(value[1]) }}</div>
+          <div class="focus-ring"></div>
         </div>
       </div>
     </div>
@@ -43,6 +54,7 @@ export default {
       knobClicked: null,
       delta: 0,
       trackWidth: 0,
+      lastTouchX: null,
     };
   },
   computed: {
@@ -75,16 +87,26 @@ export default {
   },
   mounted() {
     document.addEventListener("mousemove", this.onMouseMove);
+    document.addEventListener("touchmove", this.onTouchMove);
     document.addEventListener("mouseup", this.onMouseUp);
+    document.addEventListener("touchend", this.onMouseUp);
     window.addEventListener("resize", this.onResize);
     this.render();
   },
   beforeDestroy() {
     document.removeEventListener("mousemove", this.onMouseMove);
+    document.removeEventListener("touchmove", this.onTouchMove);
     document.removeEventListener("mouseup", this.onMouseUp);
+    document.removeEventListener("touchend", this.onMouseUp);
     window.removeEventListener("resize", this.onResize);
   },
   methods: {
+    getOnlyOneTouch(event) {
+      const touches = event.touches;
+      if (touches.length === 1) {
+        return touches.item(0);
+      }
+    },
     onResize() {
       this.render();
     },
@@ -114,23 +136,42 @@ export default {
       const adjust = i === 1 ? this.knobWidth : 0;
       this.$set(this.knobLeft, i, adjust + (val - this.min) / this.range * w);
     },
+    onKnobTouchStart(i) {
+      const touch = this.getOnlyOneTouch(event);
+      if (touch) {
+        this.lastTouchX = touch.clientX;
+        this.knobClicked = i;
+      }
+    },
     onKnobMouseDown(i) {
       this.knobClicked = i;
     },
     onMouseUp() {
       this.knobClicked = null;
       this.delta = 0;
+      this.lastTouchX = null;
       this.render();
     },
+    onTrackTouchStart(event) {
+      const touch = this.getOnlyOneTouch(event);
+      if (touch) {
+        this.lastTouchX = touch.clientX;
+        this.onTrackMouseDownTouchStart(touch.clientX);
+      }
+    },
     onTrackMouseDown(event) {
+      this.onTrackMouseDownTouchStart(event.clientX);
+    },
+    onTrackMouseDownTouchStart(clientX) {
       const w = this.getTrackUsableWidth();
-      const l = this.getTrackLeft() + this.knobWidth / 2;
-      let x = event.clientX - l;
+      const l = this.getTrackLeft() + this.knobWidth;
+      let x = clientX - l;
       let val = x / w * this.range;
+      val = this.adjustValue(i, val);
       // add tiny difference to select closer knob when their values are the same
       const diffs = this.value.map((v, i) => Math.abs(v + 0.00001 * i - val));
       const i = diffs.indexOf(Math.min(...diffs));
-      x += (i ? -1 : 1) * this.knobWidth / 2
+      x += (i == 0 ? 0.66 : -0.33) * this.knobWidth; // no idea why this works TBH...
       val = x / w * this.range;
       val = this.adjustValue(i, val);
       val = this.roundToStep(val);
@@ -139,10 +180,22 @@ export default {
         this.knobClicked = i;
       });
     },
+    onTouchMove(event) {
+      const touch = this.getOnlyOneTouch(event);
+      if (touch && this.lastTouchX != null) {
+        const dx = touch.clientX - this.lastTouchX;
+        this.lastTouchX = touch.clientX;
+        this.onMovement(dx);
+      }
+    },
     onMouseMove(event) {
+      if (this.lastTouchX != null) return;
+      const dx = event.movementX;
+      this.onMovement(dx);
+    },
+    onMovement(dx) {
       if (this.knobClicked != null) {
         const i = this.knobClicked;
-        const dx = event.movementX;
         const w = this.getTrackUsableWidth();
         const delta = dx / w * this.range;
         this.delta += delta;
@@ -234,6 +287,8 @@ $marker-border-radius: 0;
         transform: translateY(-50%);
         background: $primary;
       }
+      
+      @include ui-focus-ring(150%);
     }
   }
   .knob-1 {
