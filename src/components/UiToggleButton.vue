@@ -4,6 +4,8 @@
       {{ label }}
     </label>
     <UiTooltip v-if="tooltip" :openDelay="600">{{tooltip}}</UiTooltip>
+    <div class="focus-ring"></div>
+    
   </div>
 </template>
 
@@ -30,11 +32,14 @@ export default {
 <style lang="scss" scoped>
 @import 'keen-ui/src/styles/imports';
 
+$ui-toggle-button-size: 1.8rem;
+$ui-toggle-button-focus-ring-size: $ui-toggle-button-size * 1.2;
+
 .ui-toggle-button {
   outline: none;
   user-select: none;
   padding: 0.2rem 0.2rem;
-  min-width: 1.8rem;
+  min-width: $ui-toggle-button-size;
   text-align: center;
   border-radius: 4px;
   color: $ui-input-border-color--active;
@@ -52,5 +57,9 @@ export default {
     color: $light;
   }
   transition: all 0.2s;
+
+  position: relative;
+  @include ui-focus-ring;
 }
+
 </style>

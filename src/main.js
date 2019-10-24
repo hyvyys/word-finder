@@ -11,6 +11,8 @@ Vue.use(VueClipboard)
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import VueVirtualScroller from "vue-virtual-scroller";
 Vue.use(VueVirtualScroller);
+
+import 'keen-ui/src/bootstrap';
  
 import App from './App.vue'
 import router from './router';

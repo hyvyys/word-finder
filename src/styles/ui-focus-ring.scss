@@ -1,0 +1,38 @@
+@mixin ui-focus-ring($size: 160%, $outer: true) {
+  outline: none;
+
+  .focus-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    &::before {
+        border-radius: 50%;
+        content: "";
+        display: block;
+        position: relative;
+        top: 0;
+        left: 0;
+        height: $size;
+        width: $size;
+        $d: -($size - 100%)/2;
+        margin-left: $d;
+        margin-top: $d;
+        opacity: 0;
+        transform: scale(0);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        background-color: rgba(black, 0.12);
+        @if $outer {
+          background-color: rgba($brand-primary-color, 0.18)
+        }
+    }
+  }
+    
+  body[modality="keyboard"] &:focus {
+    .focus-ring::before {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+}
