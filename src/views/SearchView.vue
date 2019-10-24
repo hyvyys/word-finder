@@ -1,12 +1,14 @@
 <template>
   <div class="search-view">
-    <SearchWidget class='section section-search' :searching="searching" />
+    <div class='section section-search'>
+      <SearchWidget :searching="searching" />
+    </div>
 
-    <div class="section-results">
-      <div class="no-results" v-if="letters.length === 0 && !searching">
+    <div class="section section-results">
+      <div class="no-results" v-if="!resultsReady && !searching">
         No results. Try adjusting the filters.
       </div>
-      <div class="lettering section" v-else-if="letters.length > 0" >
+      <div class="lettering" v-else-if="letters.length > 0" >
         <div class="section-header">
           <label class="section-label">Random picks</label>
           <UiButton color="primary" @click="showAll">Show all results</UiButton>
@@ -47,24 +49,31 @@
       </div>
     </div>
 
-    <div ref="sectionLastPicks" class="section section-last-picks" v-if="selectedEntry">
-      <label class="section-label">Last picks for {{selectedEntry.letter}}</label>
-      <div class='last-picks'>
-        <div class='content'>
-          <PowerWordRow class='secondary'
-            v-for="(word, i) in lastPicks"
-            :key="i"
-            :word="word"
-            :first="i === 0"
-            @pick="pickWord"
-            @copy="copyWord"
-          />
+    <div class="section section-last-picks" ref="sectionLastPicks" v-if="resultsReady">
+      <div v-if="selectedEntry">
+        <label class="section-label">Last picks for {{selectedEntry.letter}}</label>
+        <div class='last-picks'>
+          <div class='content'>
+            <PowerWordRow class='secondary'
+              v-for="(word, i) in lastPicks"
+              :key="i"
+              :word="word"
+              :first="i === 0"
+              @pick="pickWord"
+              @copy="copyWord"
+            />
+          </div>
+        </div>
+      </div>
+      <div v-else class="section-placeholder">
+        <div>
+          Select an entry to see or restore last picks.
         </div>
       </div>
     </div>
 
-    <div class="section-details" ref="sectionDetails">
-      <div class="section">
+    <div class="section section-details" ref="sectionDetails" v-if="resultsReady">
+      <div v-if="allWords && allResultsVisible || selectedEntry" class="details">
         <label class="section-label" v-if="allResultsVisible" >
           All results ({{ allWords.length }})
         </label>
@@ -77,10 +86,15 @@
           @copy="copyWord"
         />
       </div>
+      <div v-else class="section-placeholder">
+        <div>
+          Select an entry to see results starting for the same letter or <button class="btn-text" @click="showAll">see all results</button>.
+        </div>
+      </div>
     </div>
       
-    <div class="section section-clipboard">
-      <label class="section-label">Clipboard</label>
+    <div class="section section-clipboard" v-if="resultsReady">
+      <label class="section-label" >Clipboard</label>
       <UiTextbox
         ref="clipboard"
         class="clipboard"
@@ -148,10 +162,14 @@ export default {
     lastPicks() {
       return this.selectedEntry ? this.pickedWords[this.selectedEntry.letter] : [];
     },
+    resultsReady() {
+      return this.letters.length > 0;
+    },
   },
   watch: {
     wordBank() {
       this.selectedEntry = null;
+      this.allWords = null;
     },
   },
   mounted() {
@@ -269,6 +287,32 @@ export default {
   margin: 0.5rem;
 }
 
+.section-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-subtle;
+  height: 100%;
+  @include ui-border-static;
+  padding: 2rem;
+  text-align: center;
+
+  .btn-text {
+    padding: 0 3px;
+    border: 0;
+    background: transparent;
+    text-decoration: underline;
+    font-family: $font-stack;
+    font-size: 1em;
+    color: darken($primary, 20%);
+    outline: none;
+    cursor: pointer;
+    &:focus, &:hover {
+      color: $primary;
+    }
+  }
+}
+
 
 .section-header {
   display: flex;
@@ -290,13 +334,6 @@ export default {
     overflow: hidden auto;
     max-height: 50vh;
     padding: 0.25rem 0.5rem;
-  }
-}
-
-.section-wrapper {
-  display: flex;
-  .section {
-    flex: 1;
   }
 }
 

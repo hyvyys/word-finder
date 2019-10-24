@@ -26,6 +26,12 @@
   }
 }
 
+@mixin ui-border-static() {
+  border-color: $ui-input-border-color;
+  border-style: solid;
+  border-width: 2px;
+}
+
 @mixin ui-border-generic() {
   border-color: $ui-input-border-color;
   border-style: solid;
