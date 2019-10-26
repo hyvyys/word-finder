@@ -34,10 +34,8 @@ export default {
   display: flex;
   align-items: center;
   padding: 0.5rem 1rem;
-  background: $primary;
-  background-image: url(~@/assets/quadrata-bg.jpg);
-  // background-position-y: 15%;
-  background-blend-mode: color-burn;
+  background: darken($primary, 5%);
+  background-image: url(~@/assets/quadrata-bg.png);
 
   h1 {
     color: $primary-text;

@@ -22,9 +22,8 @@ export default {
   justify-content: center;
   
   color: $primary-text;
-  background: darken($primary, 5%);
-  background-image: url(~@/assets/quadrata-bg.jpg);
-  background-blend-mode: color-burn;
+  background: darken($primary, 10%);
+  background-image: url(~@/assets/quadrata-bg.png);
 
   > * {
     padding: 0.75rem 1.5rem;
