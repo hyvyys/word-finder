@@ -13,7 +13,7 @@ export default [
   },
   {
     title: 'African (extended Latin)',
-    url: '/search?l=aa,ak,bm,zu,yo,xh,wo,tw,tn,ts,to,sw,st,nr,so,sn,nd,ng,mg,kg,rn,rw,ff&f=117c',
+    url: '/search?l=aa,ak,bm,zu,yo,xh,wo,tw,tn,ts,to,sw,st,nr,so,sn,nd,ng,mg,kg,rn,rw,ff,ee,ha,ig,io&f=117c',
     description: 'has the ‘rare accents’ filter checked to focus on the Pan-African alphabet',
   },
 ];
