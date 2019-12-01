@@ -6,13 +6,15 @@
       <div class="u-reading">
         <h2>A flexible multi-language word finder</h2>
         <p>
-          Search 182 languages for words with specific letter combinations or matching a regular expression.
-          Filter results by languages, word length, and occurrence of accents (or lack thereof).
+          This isn't your typical anagram solver or Scrabble word finder.
+          You're looking for words that you have a much looser,
+          yet still tangible idea about.
         </p>
         <p>
           The app was designed with type designers in mind, but I hope it can be useful to anyone.
         </p>
         <p>
+          Search one or more of 182 languages for words with specific letters, length, or matching a Regex pattern.
           The word lists are compiled from Wiktionary, so every word has a wiki link available.
         </p>
 
