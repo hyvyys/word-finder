@@ -8,6 +8,7 @@ export default {
       selectedLanguages: [],
       lengthRange: [ 6, 15 ],
       searchPhrase: '',
+      requiredCharacters: '',
       filterPhrase: '',
       isSearchRegex: true,
       isSearchCaseSensitive: false,
@@ -42,13 +43,14 @@ export default {
       return s.replace(/_/g, " ");
     },
     queryToParams() {
-      let { l, i, o, r, f } = this.$route.query;
+      let { l, i, o, r, f, rqd } = this.$route.query;
       this.selectedLanguages = (l || 'en').split(",")
         .map(l => getLanguageName(l))
         .filter(l => l);
       this.lengthRange = (r || '1,' + LENGTH_FILTER_MAX).split(',').map(i => Number(i));
       this.searchPhrase = this.decode(i || '');
       this.filterPhrase = this.decode(o || '');
+      this.requiredCharacters = this.decode( rqd || '');
 
       if (f != null) {
         const flags = (Number('0x' + f).toString(2).padStart(FILTERS.length + 2, '0')).split('').map(d => d === '1');
@@ -65,24 +67,29 @@ export default {
       }
     },
     paramsToQuery() {
-      const { selectedLanguages, lengthRange, searchPhrase, filterPhrase, filters, isSearchCaseSensitive, isSearchRegex } = this;
+      const { selectedLanguages, lengthRange, searchPhrase, requiredCharacters, filterPhrase, filters, isSearchCaseSensitive, isSearchRegex } = this;
       const l = selectedLanguages
         .map(l => getLanguageCode(l))
         .join(",");
       const r = lengthRange.join(',');
       const i = this.encode(searchPhrase);
       const o = this.encode(filterPhrase);
+      const rqd = this.encode(requiredCharacters);
       const flags = [ isSearchRegex, isSearchCaseSensitive, ...filters.map(f => f.value) ]
         .map(v => v ? '1' : '0').join('');
       const f = Number('0b' + flags).toString(16)
 
-      const query = { };
+      let query = { };
       if (i) query.i = i;
       if (o) query.o = o;
-      query.l = l;
-      query.r = r;
-      query.f = f;
-      return query
+      if (rqd) query.rqd = rqd;
+      query = {
+        ...query,
+        l,
+        r,
+        f,
+      };
+      return query;
     },
   }
 };

@@ -77,6 +77,7 @@ export default {
         languages,
         lengthRange: this.lengthRange,
         searchPhrase: this.searchPhrase,
+        requiredCharacters: this.requiredCharacters,
         filterPhrase: this.filterPhrase,
         isRegex: this.isSearchRegex, 
         isCaseSensitive: this.isSearchCaseSensitive,

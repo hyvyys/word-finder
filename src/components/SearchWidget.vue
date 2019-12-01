@@ -7,10 +7,13 @@
       <!-- advanced view first col -->
       <label v-show="advancedView" class="section-label">Look for:</label>
       <UiTextbox label="Search" placeholder="desired phrase" v-model="searchPhrase" @keydown.enter="search" />
-      <div v-show="advancedView" class="filters">
-        <UiCheckbox v-for="f in positiveFilters" :key="f.label" :value="f.value" @input="v => toggleFilter(v, f.index)">
-          {{f.label}}
-        </UiCheckbox>
+      <div v-show="advancedView" class="wrapper">
+        <UiTextbox label="Required letters" placeholder="in any order" v-model="requiredCharacters" @keydown.enter="search"/>
+        <div class="filters">
+          <UiCheckbox v-for="f in positiveFilters" :key="f.label" :value="f.value" @input="v => toggleFilter(v, f.index)">
+            {{f.label}}
+          </UiCheckbox>
+        </div>
       </div>
 
       <!-- advanced view second col -->
@@ -111,6 +114,9 @@ export default {
       this.recordChange();
     },
     searchPhrase() {
+      this.recordChange();
+    },
+    requiredCharacters() {
       this.recordChange();
     },
     filterPhrase() {
@@ -255,5 +261,9 @@ export default {
     max-width: 600px;
     margin: 0.5rem auto;
   }
+}
+
+.wrapper .ui-textbox {
+    margin-right: 0 !important;
 }
 </style>

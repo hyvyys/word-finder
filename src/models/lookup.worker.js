@@ -33,7 +33,7 @@ function handleAction(event) {
     }    
     case 'query': {
       const { query } = payload;
-      const { languages, lengthRange, searchPhrase, filterPhrase, isRegex, isCaseSensitive, filters } = query;
+      const { languages, lengthRange, searchPhrase, requiredCharacters, filterPhrase, isRegex, isCaseSensitive, filters } = query;
       const [ minLen, maxLen ] = lengthRange;
       let words = languages.flatMap(language => getLanguageWords(language));
 
@@ -49,6 +49,10 @@ function handleAction(event) {
       }
       if (maxLen < LENGTH_FILTER_MAX) {
         words = words.filter(w => w.length <= maxLen);  
+      }
+
+      if (requiredCharacters.length) {
+        words = words.filter(w => requiredCharacters.split('').every(c => w.indexOf(c) > -1));
       }
 
       const searchRegex = makeSearchRegex({ source: searchPhrase, isRegex, isCaseSensitive });
