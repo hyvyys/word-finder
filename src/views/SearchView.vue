@@ -210,7 +210,11 @@ export default {
       this.copyToClipboard(word);
     },
     copyAll() {
-      const words = this.letters.map(l => this.getPickedWord(l)).join(' ');
+      let words = this.letters.map(l => this.getPickedWord(l));
+      if (this.capitalizeClipboard) {
+        words = words.map(word => this.capitalize(word));
+      }
+      words = words.join(' ');
       this.$copyText(words);
       this.copyToClipboard(words);
     },
