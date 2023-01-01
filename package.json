@@ -21,24 +21,24 @@
     "xregexp": "^4.2.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
-    "@vue/cli-plugin-unit-jest": "^4.0.0",
-    "@vue/cli-service": "^4.0.0",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/cli-plugin-eslint": "^5.0.8",
+    "@vue/cli-plugin-unit-jest": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-eslint": "^10.0.1",
-    "copy-webpack-plugin": "^5.0.4",
+    "copy-webpack-plugin": "^11.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "fibers": "^4.0.1",
-    "file-loader": "^4.2.0",
+    "file-loader": "^6.2.0",
     "node-sass": "^4.12.0",
     "sass": "^1.23.0",
-    "sass-loader": "^8.0.0",
+    "sass-loader": "^13.2.0",
     "vue-cli-plugin-prerender-spa": "^1.1.6",
     "vue-template-compiler": "^2.6.10",
     "vue-virtual-scroller": "^1.0.0-rc.2",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^3.0.8"
   },
   "eslintConfig": {
     "root": true,
